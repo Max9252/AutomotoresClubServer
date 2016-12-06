@@ -27,6 +27,10 @@ app.post('/login',cors(),upload.array(),function(req,res){
     });
 });
 
+app.get('/',cors(),function(req,res){
+    return res.send("Hola mundo with Ec2");
+});
+
 app.post('/reg',cors(),upload.array(),function(req,res){
     var phpScriptPath = "registrousuario.php";
     var argsString = '"'+req.body.user+','+req.body.pass+'"';
