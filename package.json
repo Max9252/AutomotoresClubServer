@@ -1,0 +1,17 @@
+{
+  "name": "sevidor-simple",
+  "version": "1.0.0",
+  "description": "Este es un ejemplo de servidor sencillo que usa los metodos get y post.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Olmedo Arcila Guzmán",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cors": "^2.7.1",
+    "express": "^4.14.0",
+    "mongoose": "^4.5.9"
+  }
+}
