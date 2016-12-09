@@ -14,27 +14,19 @@
         $correo= $params[0];
         $contrasena= $params[1];
         $aux="1";
-        $auth = false;
 
         //Select a la base de datos
         //$query="SELECT ID, CONTRASENA, PUNTOS from ac_usuario WHERE ID='${idUsuario}' AND CONTRASENA='${contrasena}'";
 
-        $query="SELECT * FROM AC_USUARIO_VEHICULO WHERE";
+        $query="SELECT * FROM AC_USUARIO_VEHICULO WHERE CORREO='$correo' AND CONTRASENA='$contrasena'";
 
         $user= oci_parse($conn, $query);
 
         oci_execute($user);
+        
+        $row = oci_fetch_array($user, OCI_ASSOC);
 
-        while(($row = oci_fetch_array($stid, OCI_ASSOC)) != false){
-            if($row['correo']==$correo&&$row['contrasena']==$contrasena){
-                $auth=true;
-            }
-            else{
-                $auth=false;
-            }
-        }
-
-        if($auth){
+        if($row){
             $res = array('status' => true, 'message' => 'Success login');
         }else{
             $res = array('status' => false, 'message' => 'Invalid credentials');
