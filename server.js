@@ -16,12 +16,13 @@ app.post('/login',cors(),upload.array(),function(req,res){
     var phpScriptPath = "getDatosUsuario.php";
     var argsString = '"'+req.body.user+','+req.body.pass+'"';
     runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
+        phpResp = JSON.parse(phpResponse);
         if(err){
             res.json({success:false,reason:err});
-        } else if(phpResponse.status){
-            res.json({success:true, message:phpResponse.message});
+        } else if(phpResp.status){
+            res.json({success:true, message:phpResp.message});
         } else{
-            res.json({success:false, message:phpResponse.message});
+            res.json({success:false, message:phpResp.message});
         }
     });
 });
@@ -47,12 +48,13 @@ app.post('/reg',cors(),upload.array(),function(req,res){
     var phpScriptPath = "registrousuario.php";
     var argsString = '"'+req.body.user+','+req.body.pass+'"';
     runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
+        phpResp = JSON.parse(phpResponse);
         if(err){
             res.json({success:false,reason:err});
-        } else if(phpResponse.status){
-            res.json({success:true, message:phpResponse.message});
+        } else if(phpResp.status){
+            res.json({success:true, message:phpResp.message});
         } else{
-            res.json({success:false, message:phpResponse.message});
+            res.json({success:false, message:phpResp.message});
         }
     });
 });

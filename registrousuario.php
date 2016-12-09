@@ -18,6 +18,8 @@ if($conn){
 
     $comprobacion=$oci_execute($ingresoDatosUsuario);
 
+    oci_close($conn);
+
     if($comprobacion){
         $res = array('status' => true, 'message' => 'Success signUp');
         echo json_encode($res);
@@ -26,10 +28,12 @@ if($conn){
         $res = array('status' => false, 'message' => 'Error on signUp');
         echo json_encode($res);
     }
-    oci_close($conn);
+    
 }else{
     $res = array('status' => false, 'message' => 'Connection error');
     echo json_encode($res);
 }
+
+
 
 ?>

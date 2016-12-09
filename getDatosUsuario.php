@@ -3,6 +3,7 @@
 
 header('Content-type: text/html; charset=UTF-8');
 header('Content-Type: application/json');
+
 include(
     "config/conexion_bd.inc.php"
 );
@@ -25,6 +26,8 @@ if($conn){
 
     $cantidad=oci_fetch_array($user);
 
+    oci_close($conn);
+
     if(strcmp($cantidad[0], $aux) == 0){
         
         $res = array('status' => true, 'message' => 'Success login');
@@ -40,7 +43,5 @@ if($conn){
     $res = array('status' => false, 'message' => 'Connection error');
     echo json_encode($res);
 }
-
-oci_close($conn);
 
 ?>
