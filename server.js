@@ -28,15 +28,15 @@ app.post('/login',cors(),upload.array(),function(req,res){
 });
 
 app.get('/test', function(req, res) {
-    var phpScriptPath = "config/login.php";
+    var phpScriptPath = "config/test.php";
     runner.exec("php " + phpScriptPath, function(err, phpResponse, stderr) {
-    if(err) {
-        res.json({success:false,reason:err});
-    } else if(phpResponse){
-        res.json({success:true,auth:phpResponse});
-    } else{
-        res.json({success:false,auth:phpResponse});
-    }
+        if(err) {
+            res.json({success:false,reason:err});
+        } else if(phpResponse.status){
+            res.json({success:true, message:phpResponse.message});
+        } else{
+            res.json({success:false, message:phpResponse.message});
+        }
     });
 });
 
@@ -50,10 +50,10 @@ app.post('/reg',cors(),upload.array(),function(req,res){
     runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
         if(err){
             res.json({success:false,reason:err});
-        } else if(phpResponse){
-            res.json({success:true});
+        } else if(phpResponse.status){
+            res.json({success:true, message:phpResponse.message});
         } else{
-            res.json({success:false});
+            res.json({success:false, message:phpResponse.message});
         }
     });
 });

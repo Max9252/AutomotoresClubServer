@@ -5,29 +5,41 @@ header('Content-type: text/html; charset=UTF-8');
 include(
     "config/conexion_bd.inc.php"
 );
-// Variables traidas desde la funcion de javascript (cambiar por las del POST)
-$params = explode(",",$argv[1]);
-$idUsuario= $params[0];
-$contrasena= $params[1];
-$aux="1";
 
-//Select a la base de datos
-//$query="SELECT ID, CONTRASENA, PUNTOS from ac_usuario WHERE ID='${idUsuario}' AND CONTRASENA='${contrasena}'";
+if($conn){
+    // Variables traidas desde la funcion de javascript (cambiar por las del POST)
+    $params = explode(",",$argv[1]);
+    $correo= $params[0];
+    $contrasena= $params[1];
+    $aux="1";
 
-$query="SELECT COUNT (Id) FROM AC_USUARIO WHERE Correo='${Correo}' AND Contrasena='${contrasena}'";
+    //Select a la base de datos
+    //$query="SELECT ID, CONTRASENA, PUNTOS from ac_usuario WHERE ID='${idUsuario}' AND CONTRASENA='${contrasena}'";
 
-$user= oci_parse($conn, $query);
+    $query="SELECT * FROM AC_USUARIO_VEHICULO WHERE Correo='${Correo}' AND Contrasena='${contrasena}'";
 
-oci_execute($user);
+    $user= oci_parse($conn, $query);
 
-$cantidad=oci_fetch_array($user);
+    oci_execute($user);
 
-if(strcmp($cantidad[0], $aux) == 0){
-    echo true;
+    $cantidad=oci_fetch_array($user);
 
+    if(strcmp($cantidad[0], $aux) == 0){
+        
+        $res = array('status' => true, 'message' => 'Success login');
+        echo json_encode($res);
+
+    }
+    else{
+        $res = array('status' => false, 'message' => 'Invalid credentials');
+        echo json_encode($res);
+    }
+    
+}else{
+    $res = array('status' => false, 'message' => 'Connection error');
+    echo json_encode($res);
 }
-else{
-    echo false;
-}
+
 oci_close($conn);
+
 ?>
