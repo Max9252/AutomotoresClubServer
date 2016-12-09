@@ -11,16 +11,24 @@
         $params = explode(",",$argv[1]);
         $correo= $params[0];
         $contrasena= $params[1];
+        $emailExist = false;
 
-        $emailVerificationArray = "SELECT * FROM AC_USUARIO_VEHICULO WHERE Correo='$correo'";
+        $emailVerificationArray = "SELECT * FROM AC_USUARIO_VEHICULO";
 
         $user= oci_parse($conn, $emailVerificationArray);
 
         oci_execute($user);
 
-        $row= oci_fetch_array($user,OCI_ASSOC);
+        while(($row = oci_fetch_array($stid, OCI_ASSOC)) != false){
+            if($row['correo']==$correo){
+                $emailExist=true;
+            }
+            else{
+                $emailExist=false;
+            }
+        }
 
-        if($row){
+        if($emailExist){
             $res = array('status' => false, 'message' => 'Email already exist');
         }else{
             $arrayDatosUsuario="INSERT INTO AC_USUARIO_VEHICULO (Id, Correo, Contrasena, Estado) 
