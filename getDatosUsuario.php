@@ -14,7 +14,7 @@ $aux="1";
 //Select a la base de datos
 //$query="SELECT ID, CONTRASENA, PUNTOS from ac_usuario WHERE ID='${idUsuario}' AND CONTRASENA='${contrasena}'";
 
-$query="SELECT COUNT (ID) FROM AC_USUARIO WHERE ID='${idUsuario}' AND CONTRASENA='${contrasena}'";
+$query="SELECT COUNT (Id) FROM AC_USUARIO WHERE Correo='${Correo}' AND Contrasena='${contrasena}'";
 
 $user= oci_parse($conn, $query);
 

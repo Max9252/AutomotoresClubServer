@@ -7,14 +7,13 @@ include
 );
 
 $params = explode(",",$argv[1]);
-$idUsuario= $params[0];
+$correo= $params[0];
 $contrasena= $params[1];
-$tipoUsuario=1;
 $puntos= 0;
 
 
-$arrayDatosUsuario="INSERT INTO AC_USUARIO (Id, Contrasena, Tipo_Usuario, Puntos) 
-VALUES ('${idUsuario}', '${contrasena}', '${tipoUsuario}', '${puntos}')";
+$arrayDatosUsuario="INSERT INTO AC_USUARIO (Id, Correo, Contrasena, Estado) 
+VALUES ('', ${correo}', '${contrasena}', 0)";
 
 $ingresoDatosUsuario= oci_parse($conn, $arrayDatosUsuario);
 
