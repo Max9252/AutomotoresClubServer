@@ -18,7 +18,7 @@
 
         oci_execute($user);
 
-        $row = oci_fetch_array($stid, OCI_ASSOC);
+        $row = oci_fetch_array($user, OCI_ASSOC);
 
         if($row){
             $res = array('status' => false, 'message' => 'Email already exist');
