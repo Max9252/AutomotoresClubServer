@@ -11,8 +11,6 @@ if($conn){
     $correo= $params[0];
     $contrasena= $params[1];
 
-    print_r($correo,$contrasena);
-
     $arrayDatosUsuario="INSERT INTO AC_USUARIO_VEHICULO (Id, Correo, Contrasena, Estado) 
     VALUES (USUVEHICULO_ID.NEXTVAL, '$correo', '$contrasena', 0)";
 
@@ -22,7 +20,7 @@ if($conn){
 
     print_r($ingresoDatosUsuario);
 
-    $comprobacion=$oci_execute($ingresoDatosUsuario);
+    $comprobacion=oci_execute($ingresoDatosUsuario);
 
     oci_close($conn);
 
