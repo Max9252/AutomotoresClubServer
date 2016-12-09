@@ -16,7 +16,7 @@ if($conn){
     //Select a la base de datos
     //$query="SELECT ID, CONTRASENA, PUNTOS from ac_usuario WHERE ID='${idUsuario}' AND CONTRASENA='${contrasena}'";
 
-    $query="SELECT * FROM AC_USUARIO_VEHICULO WHERE Correo='${Correo}' AND Contrasena='${contrasena}'";
+    $query="SELECT * FROM AC_USUARIO_VEHICULO WHERE Correo='$correo' AND Contrasena='$contrasena'";
 
     $user= oci_parse($conn, $query);
 

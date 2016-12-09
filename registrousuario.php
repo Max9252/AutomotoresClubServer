@@ -11,7 +11,7 @@ if($conn){
     $contrasena= $params[1];
 
     $arrayDatosUsuario="INSERT INTO AC_USUARIO_VEHICULO (Id, Correo, Contrasena, Estado) 
-    VALUES (USUVEHICULO_ID.NEXTVAL, '${correo}', '${contrasena}', 0)";
+    VALUES (USUVEHICULO_ID.NEXTVAL, '$correo', '$contrasena', 0)";
 
     $ingresoDatosUsuario= oci_parse($conn, $arrayDatosUsuario);
 
@@ -25,11 +25,10 @@ if($conn){
         $res = array('status' => false, 'message' => 'Error on signUp');
         echo json_encode($res);
     }
+    oci_close($conn);
 }else{
     $res = array('status' => false, 'message' => 'Connection error');
     echo json_encode($res);
 }
-
-oci_close($conn);
 
 ?>
