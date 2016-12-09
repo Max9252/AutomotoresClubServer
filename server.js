@@ -16,6 +16,19 @@ app.post('/login',cors(),upload.array(),function(req,res){
     var phpScriptPath = "getDatosUsuario.php";
     var argsString = '"'+req.body.user+','+req.body.pass+'"';
     runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
+        if(err){
+            res.json({success:false,reason:err});
+        } else if(phpResponse.status){
+            res.json({success:true, message:phpResponse.message});
+        } else{
+            res.json({success:false, message:phpResponse.message});
+        }
+    });
+});
+
+app.get('/test', function(req, res) {
+    var phpScriptPath = "config/test.php";
+    runner.exec("php " + phpScriptPath, function(err, phpResponse, stderr) {
     if(err) {
         res.json({success:false,reason:err});
     } else if(phpResponse){
@@ -23,20 +36,6 @@ app.post('/login',cors(),upload.array(),function(req,res){
     } else{
         res.json({success:false,auth:phpResponse});
     }
-
-    });
-});
-
-app.get('/test', function(req, res) {
-    var phpScriptPath = "config/test.php";
-    runner.exec("php " + phpScriptPath, function(err, phpResponse, stderr) {
-        if(err) {
-            res.json({success:false,reason:err});
-        } else if(phpResponse.status){
-            res.json({success:true, message:phpResponse.message});
-        } else{
-            res.json({success:false, message:phpResponse.message});
-        }
     });
 });
 
