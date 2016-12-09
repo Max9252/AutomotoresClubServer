@@ -11,32 +11,24 @@
         $params = explode(",",$argv[1]);
         $correo= $params[0];
         $contrasena= $params[1];
-        $emailExist = false;
 
-        $emailVerificationArray = "SELECT * FROM AC_USUARIO_VEHICULO";
+        $emailVerificationArray = "SELECT * FROM AC_USUARIO_VEHICULO WHERE CORREO='$correo'";
 
         $user= oci_parse($conn, $emailVerificationArray);
 
         oci_execute($user);
 
-        while(($row = oci_fetch_array($stid, OCI_ASSOC)) != false){
-            if($row['correo']==$correo){
-                $emailExist=true;
-            }
-            else{
-                $emailExist=false;
-            }
-        }
+        $row = oci_fetch_array($stid, OCI_ASSOC);
 
-        if($emailExist){
+        if($row){
             $res = array('status' => false, 'message' => 'Email already exist');
         }else{
             $arrayDatosUsuario="INSERT INTO AC_USUARIO_VEHICULO (Id, Correo, Contrasena, Estado) 
             VALUES (USUVEHICULO_ID.NEXTVAL, '$correo', '$contrasena', 0)";
 
-            $ingresoDatosUsuario= @oci_parse($conn, $arrayDatosUsuario);
+            $ingresoDatosUsuario= oci_parse($conn, $arrayDatosUsuario);
 
-            $comprobacion= @oci_execute($ingresoDatosUsuario);
+            $comprobacion= oci_execute($ingresoDatosUsuario);
 
             if($comprobacion){
                 $res = array('status' => true, 'message' => 'Success signUp');
