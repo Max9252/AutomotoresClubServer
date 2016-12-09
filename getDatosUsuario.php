@@ -24,9 +24,9 @@
 
         oci_execute($user);
 
-        $cantidad=oci_fetch_array($user);
+        $row=oci_fetch_array($user,OCI_ASSOC);
 
-        if(strcmp($cantidad[0], $aux) == 0){
+        if($row){
             $res = array('status' => true, 'message' => 'Success login');
         }
         else{

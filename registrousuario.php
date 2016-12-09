@@ -14,13 +14,13 @@
 
         $emailVerificationArray = "SELECT * FROM AC_USUARIO_VEHICULO WHERE Correo='$correo'";
 
-        $user= @oci_parse($conn, $emailVerificationArray);
+        $user= oci_parse($conn, $emailVerificationArray);
 
-        @oci_execute($user);
+        oci_execute($user);
 
-        $cantidad= @oci_fetch_array($user);
+        $row= oci_fetch_array($user,OCI_ASSOC);
 
-        if(strcmp($cantidad[0], $aux) == 0){
+        if($row){
             $res = array('status' => false, 'message' => 'Email already exist');
         }else{
             $arrayDatosUsuario="INSERT INTO AC_USUARIO_VEHICULO (Id, Correo, Contrasena, Estado) 
