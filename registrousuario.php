@@ -17,9 +17,7 @@
 
         $ingresoDatosUsuario= oci_parse($conn, $arrayDatosUsuario);
 
-        $comprobacion=oci_execute($ingresoDatosUsuario);
-
-        oci_close($conn);
+        $comprobacion= oci_execute($ingresoDatosUsuario);
 
         if($comprobacion){
             $res = array('status' => true, 'message' => 'Success signUp');
@@ -30,6 +28,8 @@
             echo json_encode($res);
         }
         
+        oci_close($conn);
+
     }else{
         $res = array('status' => false, 'message' => 'Connection error');
         echo json_encode($res);
