@@ -26,18 +26,15 @@ if($conn){
 
     $cantidad=oci_fetch_array($user);
 
-    oci_close($conn);
-
     if(strcmp($cantidad[0], $aux) == 0){
-        
         $res = array('status' => true, 'message' => 'Success login');
-        echo json_encode($res);
-
     }
     else{
         $res = array('status' => false, 'message' => 'Invalid credentials');
-        echo json_encode($res);
     }
+
+    oci_close($conn);
+    echo json_encode($res);
     
 }else{
     $res = array('status' => false, 'message' => 'Connection error');
