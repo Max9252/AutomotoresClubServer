@@ -1,5 +1,5 @@
 <?php
-header('Content-type: text/html');
+header('Content-type: text/html; charset=UTF-8');
 header('Content-Type: application/json');
 
 include(
@@ -11,10 +11,16 @@ if($conn){
     $correo= $params[0];
     $contrasena= $params[1];
 
+    print_r($correo,$contrasena);
+
     $arrayDatosUsuario="INSERT INTO AC_USUARIO_VEHICULO (Id, Correo, Contrasena, Estado) 
     VALUES (USUVEHICULO_ID.NEXTVAL, '$correo', '$contrasena', 0)";
 
+    print_r($arrayDatosUsuario);
+
     $ingresoDatosUsuario= oci_parse($conn, $arrayDatosUsuario);
+
+    print_r($ingresoDatosUsuario);
 
     $comprobacion=$oci_execute($ingresoDatosUsuario);
 
