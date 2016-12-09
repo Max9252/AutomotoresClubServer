@@ -27,6 +27,19 @@ app.post('/login',cors(),upload.array(),function(req,res){
     });
 });
 
+app.get('/test', function(req, res) {
+    var phpScriptPath = "config/login.php";
+    runner.exec("php " + phpScriptPath, function(err, phpResponse, stderr) {
+    if(err) {
+        res.json({success:false,reason:err});
+    } else if(phpResponse){
+        res.json({success:true,auth:phpResponse});
+    } else{
+        res.json({success:false,auth:phpResponse});
+    }
+    });
+});
+
 app.get('/',cors(),function(req,res){
     return res.send("Hola mundo with Ec2");
 });

@@ -3,7 +3,7 @@
 
 header('Content-type: text/html; charset=UTF-8');  
 include(
-    "conexion.php"
+    "config/conexion_bd.inc.php"
 );
 // Variables traidas desde la funcion de javascript (cambiar por las del POST)
 $params = explode(",",$argv[1]);

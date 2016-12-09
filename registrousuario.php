@@ -11,7 +11,7 @@ $contrasena= $params[1];
 $puntos= 0;
 
 
-$arrayDatosUsuario="INSERT INTO AC_USUARIO (Id, Correo, Contrasena, Estado) 
+$arrayDatosUsuario="INSERT INTO AC_USUARIO_VEHICULO (Id, Correo, Contrasena, Estado) 
 VALUES ('', ${correo}', '${contrasena}', 0)";
 
 $ingresoDatosUsuario= oci_parse($conn, $arrayDatosUsuario);
