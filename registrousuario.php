@@ -1,9 +1,8 @@
 <?php
 header('Content-type: text/html');  
 
-include
-(
-"conexion.php"
+include(
+    "config/conexion_bd.inc.php"
 );
 
 $params = explode(",",$argv[1]);
