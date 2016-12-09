@@ -12,18 +12,30 @@
         $correo= $params[0];
         $contrasena= $params[1];
 
-        $arrayDatosUsuario="INSERT INTO AC_USUARIO_VEHICULO (Id, Correo, Contrasena, Estado) 
-        VALUES (USUVEHICULO_ID.NEXTVAL, '$correo', '$contrasena', 0)";
+        $emailVerificationArray = "SELECT * FROM AC_USUARIO_VEHICULO WHERE Correo='$correo'";
 
-        $ingresoDatosUsuario= @oci_parse($conn, $arrayDatosUsuario);
+        $user= @oci_parse($conn, $emailVerificationArray);
 
-        $comprobacion= @oci_execute($ingresoDatosUsuario);
+        @oci_execute($user);
 
-        if($comprobacion){
-            $res = array('status' => true, 'message' => 'Success signUp');
-        }
-        else{
-            $res = array('status' => false, 'message' => 'Error on signUp');
+        $cantidad= @oci_fetch_array($user);
+
+        if(strcmp($cantidad[0], $aux) == 0){
+            $res = array('status' => false, 'message' => 'Email already exist');
+        }else{
+            $arrayDatosUsuario="INSERT INTO AC_USUARIO_VEHICULO (Id, Correo, Contrasena, Estado) 
+            VALUES (USUVEHICULO_ID.NEXTVAL, '$correo', '$contrasena', 0)";
+
+            $ingresoDatosUsuario= @oci_parse($conn, $arrayDatosUsuario);
+
+            $comprobacion= @oci_execute($ingresoDatosUsuario);
+
+            if($comprobacion){
+                $res = array('status' => true, 'message' => 'Success signUp');
+            }
+            else{
+                $res = array('status' => false, 'message' => 'Error on signUp');
+            }
         }
         
         oci_close($conn);
