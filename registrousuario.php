@@ -1,5 +1,6 @@
 <?php
-header('Content-type: text/html');  
+header('Content-type: text/html');
+header('Content-Type: application/json');
 
 include(
     "config/conexion_bd.inc.php"
