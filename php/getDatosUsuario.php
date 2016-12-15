@@ -27,7 +27,7 @@
         $row = oci_fetch_array($user, OCI_ASSOC);
 
         if($row){
-            $res = array('status' => true, 'message' => 'Success login');
+            $res = array('status' => true, 'message' => 'Success login', 'data' => $row);
         }else{
             $res = array('status' => false, 'message' => 'Invalid credentials');
         }
