@@ -69,7 +69,7 @@ app.post('/regAutomotor', cors(), upload.array(), function(req, res) {
         +req.body.barrio+','+req.body.convenio+','+req.body.modelo+','+req.body.user+','+req.body.aseguradora+','
         +req.body.color+'"';
     runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
-        if(err){
+        /*if(err){
             res.json({success:false,reason:err});
         } else if(phpResponse){
             var phpResp = JSON.parse(phpResponse);
@@ -78,7 +78,8 @@ app.post('/regAutomotor', cors(), upload.array(), function(req, res) {
             }else{
                 res.json({success:false, message:phpResp.message});
             } 
-        }
+        }*/
+        res.json({data:phpResponse});
     });
 });
 
