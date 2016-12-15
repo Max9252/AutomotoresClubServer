@@ -82,6 +82,26 @@ app.post('/regAutomotor', cors(), upload.array(), function(req, res) {
     });
 });
 
+app.post('/regAutomotorWithImage', cors(), upload.array(), function(req, res) {
+    var phpScriptPath = "php/registrarVehiculoconImagen.php";
+    /*var argsString = '"'+req.body.placa+','+req.body.vigencia+','+req.body.servicio+','+req.body.linea+','
+        +req.body.barrio+','+req.body.convenio+','+req.body.modelo+','+req.body.user+','+req.body.aseguradora+','
+        +req.body.color+'"';*/
+        var argsString = '"'+req.body.imagen+'"';
+    runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
+        if(err){
+            res.json({success:false,reason:err});
+        } else if(phpResponse){
+            var phpResp = JSON.parse(phpResponse);
+            if(phpResp.status){
+                res.json({success:true, message:phpResp.message});
+            }else{
+                res.json({success:false, message:phpResp.message});
+            } 
+        }
+    });
+});
+
 app.post('/getUserId', cors(), upload.array(), function(req, res) {
     var phpScriptPath = "php/getUserId.php";
     var argsString = '"'+req.body.user+'"';
