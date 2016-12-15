@@ -12,8 +12,11 @@ if($conn){
     $resultado= oci_parse($conn, $query);
     oci_execute($resultado);
     $cerrar=oci_close($conn);
-    $resultado = oci_fetch_array($resultado, OCI_ASSOC);
-    $datos = array('status'=>true,'datos'=>$resultado);
+    while($row = oci_fetch_assoc($resultado))
+    {
+        $rows[] = $row;
+    }
+    $datos = array('status' => true, 'datos' => $rows);
     echo json_encode($datos);
 }
 else{
