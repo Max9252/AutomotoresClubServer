@@ -66,7 +66,6 @@ app.post('/reg',cors(),upload.array(),function(req,res){
 app.get('/getClaseVehiculo', function(req, res) {
     var phpScriptPath = "php/getClaseVehiculo.php";
     runner.exec("php " + phpScriptPath, function(err, phpResponse, stderr) {
-        console.log(phpResponse);
         if(err){
             res.json({success:false,reason:err});
         } else if(phpResponse){
