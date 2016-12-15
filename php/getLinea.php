@@ -15,7 +15,8 @@ if($conn){
     oci_execute($resultado);
     $cerrar=oci_close($conn);
     $resultado = oci_fetch_array($resultado, OCI_ASSOC);
-    echo json_encode($resultado);
+    $datos = array('status'=>true,'datos'=>$resultado);
+    echo json_encode($datos);
 }
 else{
     $res = array('status' => false, 'message' => 'Connection error');

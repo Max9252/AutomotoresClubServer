@@ -6,14 +6,17 @@ include(
     "config/conexion_bd.inc.php"
 );
 if($conn){
+    $params = explode(",",$argv[1]);
+    $clase_vehiculo=$params[0];
     //Query de insercion de registro
-    $query="SELECT NOMBRE, CODIGO FROM AC_P_COLOR";
+    $query="SELECT CODIGO, NOMBRE FROM AC_P_MARCA WHERE CLASE_VEHICULO= $clase_vehiculo";
 
     $resultado= oci_parse($conn, $query);
     oci_execute($resultado);
     $cerrar=oci_close($conn);
     $resultado = oci_fetch_array($resultado, OCI_ASSOC);
-    echo json_encode($resultado);
+    $datos = array('status'=>true,'datos'=>$resultado);
+    echo json_encode($datos);
 }
 else{
     $res = array('status' => false, 'message' => 'Connection error');

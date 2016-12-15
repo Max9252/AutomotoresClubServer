@@ -6,16 +6,15 @@ include(
     "config/conexion_bd.inc.php"
 );
 if($conn){
-    $params = explode(",",$argv[1]);
-    $departamento=$params[0];
     //Query de insercion de registro
-    $query="SELECT CODIGO, NOMBRE FROM AC_P_CIUDAD WHERE CODIGO_DEPARTAMENTO= $departamento";
+    $query="SELECT CODIGO, NOMBRE FROM AC_P_DEPARTAMENTO";
 
     $resultado= oci_parse($conn, $query);
     oci_execute($resultado);
     $cerrar=oci_close($conn);
     $resultado = oci_fetch_array($resultado, OCI_ASSOC);
-    echo json_encode($resultado);
+    $datos = array('status'=>true,'datos'=>$resultado);
+    echo json_encode($datos);
 }
 else{
     $res = array('status' => false, 'message' => 'Connection error');
