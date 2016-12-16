@@ -46,6 +46,23 @@ app.get('/',cors(),function(req,res){
     return res.send("Hola mundo with Ec2");
 });
 
+app.get('/getVehiculos/:id', function(req, res) {
+    var phpScriptPath = "php/getVehiculo.php";
+    var argsString = '"'+req.params.id+'"';
+    runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
+        if(err){
+            res.json({success:false,reason:err});
+        } else if(phpResponse){
+            var phpResp = JSON.parse(phpResponse);
+            if(phpResp.status){
+                res.json({success:true, data:phpResp.datos});
+            }else{
+                res.json({success:false, message:phpResp.message});
+            } 
+        }
+    });
+});
+
 app.post('/reg',cors(),upload.array(),function(req,res){
     var phpScriptPath = "php/registrousuario.php";
     var argsString = '"'+req.body.user+','+req.body.pass+'"';
