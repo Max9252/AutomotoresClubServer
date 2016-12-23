@@ -12,6 +12,23 @@ app.all('*', cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.get('/getProveedores/:codClase/:codEst', function(req, res) {
+    var phpScriptPath = "php/getProveedores.php";
+    var argsString = '"'+req.params.codClase+','+req.params.codEst+'"';
+    runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
+        if(err){
+            res.json({success:false,reason:err});
+        } else if(phpResponse){
+            var phpResp = JSON.parse(phpResponse);
+            if(phpResp.status){
+                res.json({success:true, data:phpResp.datos});
+            }else{
+                res.json({success:false, message:phpResp.message});
+            } 
+        }
+    });
+});
+
 app.post('/login',cors(),upload.array(),function(req,res){
     var phpScriptPath = "php/getDatosUsuario.php";
     var argsString = '"'+req.body.user+','+req.body.pass+'"';
