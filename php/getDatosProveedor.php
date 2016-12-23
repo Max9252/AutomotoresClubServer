@@ -6,10 +6,11 @@ include(
     "config/conexion_bd.inc.php"
 );
 if($conn){
-    $params = explode(",",$argv[1]);
-    $id_vehiculo=$params[0];
+    $params = explode(",",$argv[1]); 
+    $idEstablecimiento=$params[0]; 
+
     //Query de insercion de registro
-    $query="SELECT A.PLACA, A.ID AS ID_VEHICULO, B.NOMBRE AS LINEA, C.NOMBRE  AS CLASE_VEHICULO FROM AC_VEHICULO A, AC_P_LINEA B, AC_P_CLASE_VEHICULO C, AC_P_MARCA D WHERE A.ID_USUARIO=$id_vehiculo AND  A.LINEA=B.CODIGO AND B.MARCA= D.CODIGO AND D.CLASE_VEHICULO=C.CODIGO";
+    $query="SELECT A.NOMBRE_COMERCIAL, A.TELEFONO_FIJO, A.DIRECCION, A.DESCRIPCION, B.NOMBRE AS CIUDAD, C.ESTABLECIMIENTO_COMERCIO AS ID_ESTABLECIMIENTO  FROM AC_ESTABLECIMIENTO_COMERCIO A, AC_P_CIUDAD B, AC_MERCADO_OFERENTE C WHERE A.ID = C.ESTABLECIMIENTO_COMERCIO AND A.CIUDAD = B.CODIGO AND C.MERCADO_OBJETIVO=$idEstablecimiento";
 
     $resultado= oci_parse($conn, $query);
     oci_execute($resultado);
@@ -21,7 +22,8 @@ if($conn){
     $datos = array('status' => true, 'datos' => $rows);
     echo json_encode($datos);
 }
+else{
+    $res = array('status' => false, 'message' => 'Connection error');
+    echo json_encode($res);
+}
 ?>
-
-
-
