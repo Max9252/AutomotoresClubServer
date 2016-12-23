@@ -29,6 +29,23 @@ app.get('/getProveedores/:codClase/:codEst', function(req, res) {
     });
 });
 
+app.get('/getDatosProv/:idProv', function(req, res) {
+    var phpScriptPath = "php/getDatosProveedor.php";
+    var argsString = '"'+req.params.idProv+'"';
+    runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
+        if(err){
+            res.json({success:false,reason:err});
+        } else if(phpResponse){
+            var phpResp = JSON.parse(phpResponse);
+            if(phpResp.status){
+                res.json({success:true, data:phpResp.datos});
+            }else{
+                res.json({success:false, message:phpResp.message});
+            } 
+        }
+    });
+});
+
 app.post('/login',cors(),upload.array(),function(req,res){
     var phpScriptPath = "php/getDatosUsuario.php";
     var argsString = '"'+req.body.user+','+req.body.pass+'"';
