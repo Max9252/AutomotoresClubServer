@@ -8,6 +8,7 @@ include(
 if($conn){
     $params = explode(",",$argv[1]);
     $claseVehiculo=$params[0];
+    $tipoServicio=$params[1];
     
     switch($claseVehiculo){
         case 1:
@@ -52,7 +53,7 @@ if($conn){
     }
 
     //Query de insercion de registro
-    $query="SELECT A.NOMBRE_COMERCIAL, B.NOMBRE AS CIUDAD, C.ESTABLECIMIENTO_COMERCIO AS ID_ESTABLECIMIENTO  FROM AC_ESTABLECIMIENTO_COMERCIO A, AC_P_CIUDAD B, AC_MERCADO_OFERENTE C WHERE A.ID = C.ESTABLECIMIENTO_COMERCIO AND A.CIUDAD = B.CODIGO AND C.MERCADO_OBJETIVO=$mercadoObjetivo";
+    $query="SELECT A.NOMBRE_COMERCIAL, B.NOMBRE AS CIUDAD, C.ESTABLECIMIENTO_COMERCIO AS ID_ESTABLECIMIENTO  FROM AC_ESTABLECIMIENTO_COMERCIO A, AC_P_CIUDAD B, AC_MERCADO_OFERENTE C, AC_TIPO_PROVEEDOR D WHERE A.ID = C.ESTABLECIMIENTO_COMERCIO AND A.CIUDAD = B.CODIGO AND C.MERCADO_OBJETIVO=$mercadoObjetivo AND A.ID = D.ESTABLECIMIENTO_COMERCIO AND D.SERVICIO=$tipoServicio";
 
     $resultado= oci_parse($conn, $query);
     oci_execute($resultado);
