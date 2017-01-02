@@ -1,3 +1,6 @@
+var multer = require('multer'); // v1.0.5
+var runner = require("child_process");
+
 exports.getPromociones = function(req, res) {
     var phpScriptPath = "php/getPromociones.php";
     var argsString = '"'+req.params.codClase+','+req.params.codEst+'"';
