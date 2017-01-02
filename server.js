@@ -7,366 +7,57 @@ var upload = multer(); // for parsing multipart/form-data
 var puerto = 80;
 var runner = require("child_process");
 
-
 app.all('*', cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/getPromociones/:codClase/:codEst', function(req, res) {
-    var phpScriptPath = "php/getPromociones.php";
-    var argsString = '"'+req.params.codClase+','+req.params.codEst+'"';
-    runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
-        if(err){
-            res.json({success:false,reason:err});
-        } else if(phpResponse){
-            var phpResp = JSON.parse(phpResponse);
-            if(phpResp.status){
-                res.json({success:true, data:phpResp.datos});
-            }else{
-                res.json({success:false, message:phpResp.message});
-            } 
-        }
-    });
-});
-
-app.get('/getProveedores/:codClase/:codEst', function(req, res) {
-    var phpScriptPath = "php/getProveedores.php";
-    var argsString = '"'+req.params.codClase+','+req.params.codEst+'"';
-    runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
-        if(err){
-            res.json({success:false,reason:err});
-        } else if(phpResponse){
-            var phpResp = JSON.parse(phpResponse);
-            if(phpResp.status){
-                res.json({success:true, data:phpResp.datos});
-            }else{
-                res.json({success:false, message:phpResp.message});
-            } 
-        }
-    });
-});
-
-app.get('/getDatosProv/:idProv', function(req, res) {
-    var phpScriptPath = "php/getDatosProveedor.php";
-    var argsString = '"'+req.params.idProv+'"';
-    runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
-        if(err){
-            res.json({success:false,reason:err});
-        } else if(phpResponse){
-            var phpResp = JSON.parse(phpResponse);
-            if(phpResp.status){
-                res.json({success:true, data:phpResp.datos});
-            }else{
-                res.json({success:false, message:phpResp.message});
-            } 
-        }
-    });
-});
-
-app.post('/login',cors(),upload.array(),function(req,res){
-    var phpScriptPath = "php/getDatosUsuario.php";
-    var argsString = '"'+req.body.user+','+req.body.pass+'"';
-    runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
-        if(err){
-            res.json({success:false,reason:err});
-        } else if(phpResponse){
-            var phpResp = JSON.parse(phpResponse);
-            if(phpResp.status){
-                res.json({success:true, message:phpResp.message, data: phpResp.data});
-            }else{
-                res.json({success:false, message:phpResp.message});
-            } 
-        }
-    });
-});
-
-app.get('/test', function(req, res) {
-    var phpScriptPath = "config/test.php";
-    runner.exec("php " + phpScriptPath, function(err, phpResponse, stderr) {
-    if(err) {
-        res.json({success:false,reason:err});
-    } else if(phpResponse){
-        res.json({success:true,auth:phpResponse});
-    } else{
-        res.json({success:false,auth:phpResponse});
-    }
-    });
-});
+var api = require('./controllers/api.js');
 
 app.get('/',cors(),function(req,res){
     return res.send("Hola mundo with Ec2");
 });
 
-app.get('/getVehiculos/:id', function(req, res) {
-    var phpScriptPath = "php/getVehiculo.php";
-    var argsString = '"'+req.params.id+'"';
-    runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
-        if(err){
-            res.json({success:false,reason:err});
-        } else if(phpResponse){
-            var phpResp = JSON.parse(phpResponse);
-            if(phpResp.status){
-                res.json({success:true, data:phpResp.datos});
-            }else{
-                res.json({success:false, message:phpResp.message});
-            } 
-        }
-    });
-});
+app.get('/test', cors(), api.test);
 
-app.post('/reg',cors(),upload.array(),function(req,res){
-    var phpScriptPath = "php/registrousuario.php";
-    var argsString = '"'+req.body.user+','+req.body.pass+'"';
-    runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
-        if(err){
-            res.json({success:false,reason:err});
-        } else if(phpResponse){
-            var phpResp = JSON.parse(phpResponse);
-            if(phpResp.status){
-                res.json({success:true, message:phpResp.message});
-            }else{
-                res.json({success:false, message:phpResp.message});
-            } 
-        }
-    });
-});
+app.get('/getPromociones/:codClase/:codEst', api.getPromociones);
 
-app.post('/regAutomotor', cors(), upload.array(), function(req, res) {
-    var phpScriptPath = "php/registrarVehiculo.php";
-    var argsString = '"'+req.body.placa+','+req.body.vigencia+','+req.body.servicio+','+req.body.linea+','
-        +req.body.barrio+','+req.body.convenio+','+req.body.modelo+','+req.body.user+','+req.body.aseguradora+','
-        +req.body.color+'"';
-    runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
-        if(err){
-            res.json({success:false,reason:err});
-        } else if(phpResponse){
-            var phpResp = JSON.parse(phpResponse);
-            if(phpResp.status){
-                res.json({success:true, message:phpResp.message});
-            }else{
-                res.json({success:false, message:phpResp.message});
-            } 
-        }
-    });
-});
+app.get('/getProveedores/:codClase/:codEst', api.getProveedores);
 
-app.post('/regAutomotorWithImage', cors(), upload.array(), function(req, res) {
-    var phpScriptPath = "php/registrarVehiculoconImagen.php";
-    /*var argsString = '"'+req.body.placa+','+req.body.vigencia+','+req.body.servicio+','+req.body.linea+','
-        +req.body.barrio+','+req.body.convenio+','+req.body.modelo+','+req.body.user+','+req.body.aseguradora+','
-        +req.body.color+'"';*/
-        var argsString = '"'+req.body.imagen+'"';
-    runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
-        if(err){
-            res.json({success:false,reason:err});
-        } else if(phpResponse){
-            var phpResp = JSON.parse(phpResponse);
-            if(phpResp.status){
-                res.json({success:true, message:phpResp.message});
-            }else{
-                res.json({success:false, message:phpResp.message});
-            } 
-        }
-    });
-});
+app.get('/getDatosProv/:idProv', api.getDatosProv);
 
-app.post('/getUserId', cors(), upload.array(), function(req, res) {
-    var phpScriptPath = "php/getUserId.php";
-    var argsString = '"'+req.body.user+'"';
-    runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
-        if(err){
-            res.json({success:false,reason:err});
-        } else if(phpResponse){
-            var phpResp = JSON.parse(phpResponse);
-            if(phpResp.status){
-                res.json({success:true, message:phpResp.message, data:phpResp.data});
-            }else{
-                res.json({success:false, message:phpResp.message});
-            } 
-        }
-    });
-});
+app.get('/getVehiculos/:id', api.getVehiculos);
 
-app.get('/getClaseVehiculo', function(req, res) {
-    var phpScriptPath = "php/getClaseVehiculo.php";
-    runner.exec("php " + phpScriptPath, function(err, phpResponse, stderr) {
-        if(err){
-            res.json({success:false,reason:err});
-        } else if(phpResponse){
-            var phpResp = JSON.parse(phpResponse);
-            if(phpResp.status){
-                res.json({success:true, data:phpResp.datos});
-            }else{
-                res.json({success:false, message:phpResp.message});
-            } 
-        }
-    });
-});
+app.get('/getClaseVehiculo', api.getClaseVehiculo);
 
-app.get('/getMarca/:clase', function(req, res) {
-    var phpScriptPath = "php/getMarca.php";
-    var argsString = '"'+req.params.clase+'"';
-    runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
-        if(err){
-            res.json({success:false,reason:err});
-        } else if(phpResponse){
-            var phpResp = JSON.parse(phpResponse);
-            if(phpResp.status){
-                res.json({success:true, data:phpResp.datos});
-            }else{
-                res.json({success:false, message:phpResp.message});
-            } 
-        }
-    });
-});
+app.get('/getMarca/:clase', api.getMarca);
 
-app.get('/getLinea/:marca', function(req, res) {
-    var phpScriptPath = "php/getLinea.php";
-    var argsString = '"'+req.params.marca+'"';
-    runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
-        if(err){
-            res.json({success:false,reason:err});
-        } else if(phpResponse){
-            var phpResp = JSON.parse(phpResponse);
-            if(phpResp.status){
-                res.json({success:true, data:phpResp.datos});
-            }else{
-                res.json({success:false, message:phpResp.message});
-            } 
-        }
-    });
-});
+app.get('/getLinea/:marca', api.getLinea);
 
-app.get('/getColor', function(req, res) {
-    var phpScriptPath = "php/getColor.php";
-    runner.exec("php " + phpScriptPath, function(err, phpResponse, stderr) {
-        if(err){
-            res.json({success:false,reason:err});
-        } else if(phpResponse){
-            var phpResp = JSON.parse(phpResponse);
-            if(phpResp.status){
-                res.json({success:true, data:phpResp.datos});
-            }else{
-                res.json({success:false, message:phpResp.message});
-            } 
-        }
-    });
-});
+app.get('/getColor', api.getColor);
 
-app.get('/getServicio', function(req, res) {
-    var phpScriptPath = "php/getTipoVehiculo.php";
-    runner.exec("php " + phpScriptPath, function(err, phpResponse, stderr) {
-        if(err){
-            res.json({success:false,reason:err});
-        } else if(phpResponse){
-            var phpResp = JSON.parse(phpResponse);
-            if(phpResp.status){
-                res.json({success:true, data:phpResp.datos});
-            }else{
-                res.json({success:false, message:phpResp.message});
-            } 
-        }
-    });
-});
+app.get('/getServicio', api.getServicio);
 
-app.get('/getConvenio', function(req, res) {
-    var phpScriptPath = "php/getConvenio.php";
-    runner.exec("php " + phpScriptPath, function(err, phpResponse, stderr) {
-        if(err){
-            res.json({success:false,reason:err});
-        } else if(phpResponse){
-            var phpResp = JSON.parse(phpResponse);
-            if(phpResp.status){
-                res.json({success:true, data:phpResp.datos});
-            }else{
-                res.json({success:false, message:phpResp.message});
-            } 
-        }
-    });
-});
+app.get('/getConvenio', api.getConvenio);
 
-app.get('/getAseguradora', function(req, res) {
-    var phpScriptPath = "php/getAseguradora.php";
-    runner.exec("php " + phpScriptPath, function(err, phpResponse, stderr) {
-        if(err){
-            res.json({success:false,reason:err});
-        } else if(phpResponse){
-            var phpResp = JSON.parse(phpResponse);
-            if(phpResp.status){
-                res.json({success:true, data:phpResp.datos});
-            }else{
-                res.json({success:false, message:phpResp.message});
-            } 
-        }
-    });
-});
+app.get('/getAseguradora', api.getAseguradora);
 
-app.get('/getDepartamento', function(req, res) {
-    var phpScriptPath = "php/getDepartamento.php";
-    runner.exec("php " + phpScriptPath, function(err, phpResponse, stderr) {
-        if(err){
-            res.json({success:false,reason:err});
-        } else if(phpResponse){
-            var phpResp = JSON.parse(phpResponse);
-            if(phpResp.status){
-                res.json({success:true, data:phpResp.datos});
-            }else{
-                res.json({success:false, message:phpResp.message});
-            } 
-        }
-    });
-});
+app.get('/getDepartamento', api.getDepartamento);
 
-app.get('/getCiudad/:departamento', function(req, res) {
-    var phpScriptPath = "php/getCiudad.php";
-    var argsString = '"'+req.params.departamento+'"';
-    runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
-        if(err){
-            res.json({success:false,reason:err});
-        } else if(phpResponse){
-            var phpResp = JSON.parse(phpResponse);
-            if(phpResp.status){
-                res.json({success:true, data:phpResp.datos});
-            }else{
-                res.json({success:false, message:phpResp.message});
-            } 
-        }
-    });
-});
+app.get('/getCiudad/:departamento', api.getCiudad);
 
-app.get('/getBarrio/:ciudad', function(req, res) {
-    var phpScriptPath = "php/getBarrio.php";
-    var argsString = '"'+req.params.ciudad+'"';
-    runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
-        if(err){
-            res.json({success:false,reason:err});
-        } else if(phpResponse){
-            var phpResp = JSON.parse(phpResponse);
-            if(phpResp.status){
-                res.json({success:true, data:phpResp.datos});
-            }else{
-                res.json({success:false, message:phpResp.message});
-            } 
-        }
-    });
-});
+app.get('/getBarrio/:ciudad', api.getBarrio);
 
-app.get('/getComuna/:barrio', function(req, res) {
-    var phpScriptPath = "php/getComuna.php";
-    var argsString = '"'+req.params.barrio+'"';
-    runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
-        if(err){
-            res.json({success:false,reason:err});
-        } else if(phpResponse){
-            var phpResp = JSON.parse(phpResponse);
-            if(phpResp.status){
-                res.json({success:true, data:phpResp.datos});
-            }else{
-                res.json({success:false, message:phpResp.message});
-            } 
-        }
-    });
-});
+app.get('/getComuna/:barrio', api.getComuna);
+
+app.post('/login',cors(),upload.array(), api.login);
+
+app.post('/reg',cors(),upload.array(), api.reg);
+
+app.post('/regAutomotor', cors(), upload.array(), api.regAutomotor);
+
+app.post('/regAutomotorWithImage', cors(), upload.array(), api.regAutomotorWithImage);
+
+app.post('/getUserId', cors(), upload.array(), api.getUserId);
 
 app.listen(puerto, function () {
   console.log("Servidor corriendo por el puerto " + puerto);
