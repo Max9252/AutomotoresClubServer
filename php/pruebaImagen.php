@@ -47,7 +47,7 @@ $signature = base64_encode($signature);
 $url = 'https://' . $bucket . '.s3-' . $region . '.amazonaws.com';
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HEADER, true);
+curl_setopt($ch,error CURLOPT_HEADER, true);
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
@@ -73,6 +73,8 @@ if (curl_getinfo($ch, CURLINFO_HTTP_CODE) == 204) {
     $url="http://$bucket.s3.amazonaws.com/$fileName";
     $eUrl = hash('sha512', $url);
     echo $eUrl;
+    echo json_encode(array('status'=>true,'message'=>'Success!','url'=>$url));
 } else {
     $error = substr($response, strpos($response, '<Code>') + 6);
+    echo json_encode(array('status'=>false,'message'=>$error));
 }

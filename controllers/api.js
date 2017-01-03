@@ -1,6 +1,23 @@
 var multer = require('multer'); // v1.0.5
 var runner = require("child_process");
 
+exports.uploadPhoto = function(req,res){
+  var phpScriptPath = "php/pruebaImagen.php";
+  var argsString = '"'+req.body.imagen+'"';
+  runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
+      if(err){
+          res.json({success:false,reason:err});
+      } else if(phpResponse){
+          var phpResp = JSON.parse(phpResponse);
+          if(phpResp.status){
+              res.json({success:true, message:phpResp.message, data: phpResp.url});
+          }else{
+              res.json({success:false, message:phpResp.message});
+          }
+      }
+  });
+}
+
 exports.getPromociones = function(req, res) {
     var phpScriptPath = "php/getPromociones.php";
     var argsString = '"'+req.params.codClase+','+req.params.codEst+'"';
