@@ -1,7 +1,33 @@
 var runner = require("child_process");
 
+var AWS = require('aws-sdk');
+
+var s3 = new AWS.S3();
+
 exports.uploadPhoto = function(req,res){
-  var phpScriptPath = "php/pruebaImagen.php";
+  var myBucket = 'ac-automotor';
+
+  var params = {
+      Bucket: myBucket,
+      Key: 'prueba.jpg',
+      Body: req.body.imagen
+    };
+
+    s3.putObject(params, function(err, data) {
+
+         if (err) {
+
+             res.json({success:false,error:err});
+
+         } else {
+
+             res.json({success:true,data:data});
+
+         }
+
+      });
+
+  /*var phpScriptPath = "php/pruebaImagen.php";
   var argsString = '"'+req.body.imagen+'"';
   runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
       if(err){
@@ -14,7 +40,7 @@ exports.uploadPhoto = function(req,res){
               res.json({success:false, message:phpResp.message});
           }
       }
-  });
+  });*/
 }
 
 exports.getPromociones = function(req, res) {
