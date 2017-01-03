@@ -58,6 +58,8 @@ app.post('/regAutomotorWithImage', cors(), upload.array(), api.regAutomotorWithI
 
 app.post('/getUserId', cors(), upload.array(), api.getUserId);
 
+app.post('/testImagen', cors(), upload.array(), api.uploadPhoto);
+
 app.listen(puerto, function () {
   console.log("Servidor corriendo por el puerto " + puerto);
 });
