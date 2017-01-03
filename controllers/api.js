@@ -1,4 +1,3 @@
-var multer = require('multer'); // v1.0.5
 var runner = require("child_process");
 
 exports.uploadPhoto = function(req,res){
