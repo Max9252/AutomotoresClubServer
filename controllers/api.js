@@ -175,7 +175,7 @@ exports.getUserId = function(req, res) {
     });
 }
 
-expors.getClaseVehiculo = function(req, res) {
+exports.getClaseVehiculo = function(req, res) {
     var phpScriptPath = "php/getClaseVehiculo.php";
     runner.exec("php " + phpScriptPath, function(err, phpResponse, stderr) {
         if(err){
