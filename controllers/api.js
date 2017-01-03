@@ -14,11 +14,13 @@ var s3 = new AWS.S3();
 
 exports.uploadPhoto = function(req,res){
   var myBucket = 'ac-automotor';
-
+  buf = new Buffer(req.body.imagen.replace(/^data:image\/\w+;base64,/, ""),'base64');
   var params = {
       Bucket: myBucket,
       Key: 'prueba.jpg',
-      Body: req.body.imagen
+      Body: buf,
+      ContentEncoding: 'base64',
+      ContentType: 'image/jpeg'
     };
 
     s3.putObject(params, function(err, data) {
