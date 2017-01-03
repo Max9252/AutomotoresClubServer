@@ -8,8 +8,10 @@ $secretKey = 'EI+6fFrrxBOv8Ua4jF+y5T9shKEC2lTg8DMv8FkC';
 $bucket = 'ac-automotor';
 $region = 'us-west-2'; // us-west-2, us-east-1, etc
 $acl = 'public-read'; // private, public-read, etc
-$filePath = $_FILES['lob_upload']['tmp_name'];
-$fileName = $_FILES['lob_upload']['name'];
+$params = explode(",",$argv[1]);
+$imagen= $params[0];
+$filePath = $imagen['lob_upload']['tmp_name'];
+$fileName = $imagen['lob_upload']['name'];
 $fileType = pathinfo($fileName, PATHINFO_EXTENSION);
 
 // POST POLICY
