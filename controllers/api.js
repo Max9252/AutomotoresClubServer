@@ -2,6 +2,14 @@ var runner = require("child_process");
 
 var AWS = require('aws-sdk');
 
+var accessKeyId =  process.env.AWS_ACCESS_KEY || "AKIAJDYNJSPSOZO4T4SQ";
+var secretAccessKey = process.env.AWS_SECRET_KEY || "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";
+
+AWS.config.update({
+    accessKeyId: accessKeyId,
+    secretAccessKey: secretAccessKey
+});
+
 var s3 = new AWS.S3();
 
 exports.uploadPhoto = function(req,res){
