@@ -15,6 +15,7 @@ var s3 = new AWS.S3();
 exports.uploadPhoto = function(req,res){
   var myBucket = 'ac-automotor';
   buf = new Buffer(req.body.imagen.replace(/^data:image\/\w+;base64,/, ""),'base64');
+
   var params = {
       Bucket: myBucket,
       Key: 'prueba.jpg',
@@ -24,33 +25,12 @@ exports.uploadPhoto = function(req,res){
     };
 
     s3.putObject(params, function(err, data) {
-
          if (err) {
-
              res.json({success:false,error:err});
-
          } else {
-
-             res.json({success:true,data:data});
-
+             res.json({success:true,url:'https://s3-us-west-2.amazonaws.com/'+params.Bucket+'/'+params.Key});
          }
-
       });
-
-  /*var phpScriptPath = "php/pruebaImagen.php";
-  var argsString = '"'+req.body.imagen+'"';
-  runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
-      if(err){
-          res.json({success:false,reason:err});
-      } else if(phpResponse){
-          var phpResp = JSON.parse(phpResponse);
-          if(phpResp.status){
-              res.json({success:true, message:phpResp.message, data: phpResp.url});
-          }else{
-              res.json({success:false, message:phpResp.message});
-          }
-      }
-  });*/
 }
 
 exports.getPromociones = function(req, res) {
