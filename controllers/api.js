@@ -11,14 +11,15 @@ AWS.config.update({
 });
 
 var s3 = new AWS.S3();
+var myBucket = 'ac-automotor';
 
 exports.uploadPhoto = function(req,res){
-  var myBucket = 'ac-automotor';
-  buf = new Buffer(req.body.imagen.replace(/^data:image\/\w+;base64,/, ""),'base64');
+
+  var buf = new Buffer(req.body.imagen.replace(/^data:image\/\w+;base64,/, ""),'base64');
 
   var params = {
       Bucket: myBucket,
-      Key: 'prueba.jpg',
+      Key: req.body.placa+'_1.jpg',
       Body: buf,
       ContentEncoding: 'base64',
       ContentType: 'image/jpeg'
@@ -31,6 +32,23 @@ exports.uploadPhoto = function(req,res){
              res.json({success:true,url:'https://s3-us-west-2.amazonaws.com/'+params.Bucket+'/'+params.Key});
          }
       });
+}
+
+exports.deletePhoto = function(req,res){
+  var params = {
+    Bucket: myBucket,
+    Delete: {
+      Objects: [
+        {
+          Key: req.body.placa+'_1.jpg'
+        }
+      ]
+    }
+  }
+  s3.deleteObjects(params, function(err, data) {
+    if (err) res.json({success:false,error:err}); // an error occurred
+    else     res.json({success:true});           // successful response
+  });
 }
 
 exports.getPromociones = function(req, res) {
@@ -139,7 +157,7 @@ exports.regAutomotor = function(req, res) {
     var phpScriptPath = "php/registrarVehiculo.php";
     var argsString = '"'+req.body.placa+','+req.body.vigencia+','+req.body.servicio+','+req.body.linea+','
         +req.body.barrio+','+req.body.convenio+','+req.body.modelo+','+req.body.user+','+req.body.aseguradora+','
-        +req.body.color+'"';
+        +req.body.color+','+req.body.img+'"';
     runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
         if(err){
             res.json({success:false,reason:err});
