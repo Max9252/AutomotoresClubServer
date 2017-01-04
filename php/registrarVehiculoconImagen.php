@@ -19,7 +19,7 @@ if($conn){
     $color_vehiculo=$params[9];
     $url=$params[10];
     //Estado como activo por defecto
-    $estado=0; 
+    $estado=0;
 
     //echo array($placa,$fecha_vigencia,$tipo_vehiculo,$linea,$barrio,$convenio,$modelo,$id_usuario,$aseguradora,$color_vehiculo);
 
@@ -33,7 +33,7 @@ if($conn){
     if($resul){
         $res = array('status' => true, 'message' => 'Registro completo');
     }else{
-        $res = array('status' => false, 'message' => 'Credenciales Invalidas');
+        $res = array('status' => false, 'message' => 'Credenciales Invalidas', 'color'=> $color_vehiculo, 'url'=>$url);
     }
     oci_close($conn);
     echo json_encode($res);

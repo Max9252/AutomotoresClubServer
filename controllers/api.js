@@ -185,7 +185,7 @@ exports.regAutomotorWithImage = function(req, res) {
             if(phpResp.status){
                 res.json({success:true, message:phpResp.message});
             }else{
-                res.json({success:false, message:phpResp.message});
+                res.json({success:false, message:phpResp.message, data:phpResp});
             }
         }
     });
