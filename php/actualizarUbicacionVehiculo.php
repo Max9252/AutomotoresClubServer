@@ -9,11 +9,11 @@ if($conn){
 
     $params = explode(",",$argv[1]);
     $id=$params[0];
-    $color=$params[1];
+    $barrio=$params[1];
     //echo array($placa,$fecha_vigencia,$tipo_vehiculo,$linea,$barrio,$convenio,$modelo,$id_usuario,$aseguradora,$color_vehiculo);
     //Query de insercion de registro
 
-    $query="UPDATE AC_VEHICULO SET COLOR_VEHICULO=$color WHERE ID=$id";
+    $query="UPDATE AC_VEHICULO SET BARRIO=$barrio WHERE ID=$id";
     $vehiculo= oci_parse($conn, $query);
 
     $resul= oci_execute($vehiculo);
