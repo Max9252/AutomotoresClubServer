@@ -51,6 +51,23 @@ exports.deletePhoto = function(req,res){
   });
 }
 
+exports.getDatosAutomotor = function(req,res) {
+  var phpScriptPath = "php/getVehiculo.php";
+  var argsString = '"'+req.params.id_automotor+'"';
+  runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
+      if(err){
+          res.json({success:false,reason:err});
+      } else if(phpResponse){
+          var phpResp = JSON.parse(phpResponse);
+          if(phpResp.status){
+              res.json({success:true, data:phpResp.datos});
+          }else{
+              res.json({success:false, message:"Error de conexión"});
+          }
+      }
+  });
+}
+
 exports.updateLocation = function (req,res) {
   var phpScriptPath = "php/actualizarUbicacionVehiculo.php";
   var argsString = '"'+req.body.automotor_id+','+req.body.location_id+'"';

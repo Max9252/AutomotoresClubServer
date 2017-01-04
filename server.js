@@ -20,6 +20,8 @@ app.get('/test', cors(), api.test);
 
 app.get('/validatePlaca/:placa', cors(), api.validatePlaca);
 
+app.get('/getDatosAutomotor/:id_automotor', cors(), api.getDatosAutomotor);
+
 app.get('/getPromociones/:codClase/:codEst', api.getPromociones);
 
 app.get('/getProveedores/:codClase/:codEst', api.getProveedores);
