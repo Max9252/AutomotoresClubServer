@@ -13,15 +13,12 @@ if($conn){
 
     $resultado= oci_parse($conn, $query);
     oci_execute($resultado);
-    $cerrar=oci_close($conn);
     while($row = oci_fetch_assoc($resultado))
     {
         $rows[] = $row;
     }
     $datos = array('status' => true, 'datos' => $rows);
+    $cerrar=oci_close($conn);
     echo json_encode($datos);
 }
 ?>
-
-
-
