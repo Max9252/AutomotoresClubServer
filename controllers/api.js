@@ -51,6 +51,53 @@ exports.deletePhoto = function(req,res){
   });
 }
 
+exports.updateLocation = function (req,res) {
+  var phpScriptPath = "php/actualizarUbicacionVehiculo.php";
+  var argsString = '"'+req.body.automotor_id+','+req.body.location_id+'"';
+  runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
+      if(err){
+          res.json({success:false,reason:err});
+      } else if(phpResponse){
+          var phpResp = JSON.parse(phpResponse);
+          if(phpResp.status){
+              res.json({success:true, message:phpResp.message});
+          }else{
+              res.json({success:false, message:phpResp.message});
+          }
+      }
+  });
+}
+
+exports.updateColor = function (req,res) {
+  var phpScriptPath = "php/actualizarColorVehiculo.php";
+  var argsString = '"'+req.body.automotor_id+','+req.body.color_id+'"';
+  runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
+      if(err){
+          res.json({success:false,reason:err});
+      } else if(phpResponse){
+          var phpResp = JSON.parse(phpResponse);
+          if(phpResp.status){
+              res.json({success:true, message:phpResp.message});
+          }else{
+              res.json({success:false, message:phpResp.message});
+          }
+      }
+  });
+}
+
+exports.validatePlaca = function(req,res) {
+  var phpScriptPath = "php/validarPlaca.php";
+  var argsString = '"'+req.params.placa+'"';
+  runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
+      if(err){
+          res.json({success:false,reason:err});
+      } else if(phpResponse){
+          var phpResp = JSON.parse(phpResponse);
+          res.json({success:true,status:phpResp.status});
+      }
+  });
+}
+
 exports.getPromociones = function(req, res) {
     var phpScriptPath = "php/getPromociones.php";
     var argsString = '"'+req.params.codClase+','+req.params.codEst+'"';

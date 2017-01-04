@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 include(
     "config/conexion_bd.inc.php"
 );
-if($conn){+
+if($conn){
     $params = explode(",",$argv[1]);
     $placa=$params[0];
     $disponible=0;

@@ -18,6 +18,8 @@ app.get('/',cors(),function(req,res){
 
 app.get('/test', cors(), api.test);
 
+app.get('/validatePlaca/:placa', cors(), api.validatePlaca);
+
 app.get('/getPromociones/:codClase/:codEst', api.getPromociones);
 
 app.get('/getProveedores/:codClase/:codEst', api.getProveedores);
@@ -59,6 +61,10 @@ app.post('/regAutomotorWithImage', cors(), upload.array(), api.regAutomotorWithI
 app.post('/getUserId', cors(), upload.array(), api.getUserId);
 
 app.post('/testImagen', cors(), upload.array(), api.uploadPhoto);
+
+app.post('/updateColor', cors(), upload.array(), api.updateColor);
+
+app.post('/updateLocation', cors(), upload.array(), api.updateLocation);
 
 app.listen(puerto, function () {
   console.log("Servidor corriendo por el puerto " + puerto);
