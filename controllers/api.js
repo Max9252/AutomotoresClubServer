@@ -157,7 +157,7 @@ exports.regAutomotor = function(req, res) {
     var phpScriptPath = "php/registrarVehiculo.php";
     var argsString = '"'+req.body.placa+','+req.body.vigencia+','+req.body.servicio+','+req.body.linea+','
         +req.body.barrio+','+req.body.convenio+','+req.body.modelo+','+req.body.user+','+req.body.aseguradora+','
-        +req.body.color+','+req.body.img+'"';
+        +req.body.color+'"';
     runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
         if(err){
             res.json({success:false,reason:err});
@@ -174,10 +174,9 @@ exports.regAutomotor = function(req, res) {
 
 exports.regAutomotorWithImage = function(req, res) {
     var phpScriptPath = "php/registrarVehiculoconImagen.php";
-    /*var argsString = '"'+req.body.placa+','+req.body.vigencia+','+req.body.servicio+','+req.body.linea+','
+    var argsString = '"'+req.body.placa+','+req.body.vigencia+','+req.body.servicio+','+req.body.linea+','
         +req.body.barrio+','+req.body.convenio+','+req.body.modelo+','+req.body.user+','+req.body.aseguradora+','
-        +req.body.color+'"';*/
-        var argsString = '"'+req.body.imagen+'"';
+        +req.body.color+','+req.body.img+'"';
     runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
         if(err){
             res.json({success:false,reason:err});
