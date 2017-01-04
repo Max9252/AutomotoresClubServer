@@ -3,48 +3,43 @@
 header('Content-type: text/html; charset=UTF-8');
 header('Content-Type: application/json');
 include(
-   "config/conexion_bd.inc.php"
+    "config/conexion_bd.inc.php"
 );
 if($conn){
-   // Variables traidas desde la funcion de javascript (cambiar por las del POST)
-   $params = explode(",",$argv[1]);
-   $placa='abc123';
-   $fecha_vigencia="19960725";
-   $tipo_vehiculo=1;
-   $linea=100;
-   $barrio=76410;
-   $convenio=1;
-   $modelo=2002;
-   $id_usuario=1;
-   $aseguradora=1;
-   $color_vehiculo=1;
-   //Estado como activo por defecto
-   $estado=0; 
-   $lob_upload = $params[0];
+    $params = explode(",",$argv[1]);
+    $placa=$params[0];
+    $fecha_vigencia=$params[1];
+    $tipo_vehiculo=$params[2];
+    $linea=$params[3];
+    $barrio=$params[4];
+    $convenio=$params[5];
+    $modelo=$params[6];
+    $id_usuario=$params[7];
+    $aseguradora=$params[8];
+    $color_vehiculo=$params[9];
+    $url=$params[10];
+    //Estado como activo por defecto
+    $estado=0; 
 
-   $lob = OCINewDescriptor($conn, OCI_D_LOB);
+    //echo array($placa,$fecha_vigencia,$tipo_vehiculo,$linea,$barrio,$convenio,$modelo,$id_usuario,$aseguradora,$color_vehiculo);
 
-   //Query de insercion de registro
-   $query="INSERT INTO AC_VEHICULO(ID, PLACA, VIGENCIA_SOAT, TIPO_VEHICULO, LINEA, BARRIO, CONVENIO, MODELO, ESTADO, ID_USUARIO, ASEGURADORA, COLOR_VEHICULO, IMAGEN) VALUES (VEHICULO_ID.NEXTVAL, '$placa', to_date('$fecha_vigencia','YYYYMMDD'), $tipo_vehiculo, $linea, $barrio, $convenio, $modelo, $estado, $id_usuario, $aseguradora, $color_vehiculo, EMPTY_BLOB() ) returning IMAGEN into :the_blob";
+    //Query de insercion de registro
+    $query="INSERT INTO AC_VEHICULO(ID, PLACA, VIGENCIA_SOAT, TIPO_VEHICULO, LINEA, BARRIO, CONVENIO, MODELO, ESTADO, ID_USUARIO, ASEGURADORA, COLOR_VEHICULO, URL) VALUES (VEHICULO_ID.NEXTVAL, '$placa', to_date('$fecha_vigencia','YYYY-MM-DD'), $tipo_vehiculo, $linea, $barrio, $convenio, $modelo, $estado, $id_usuario, $aseguradora, $color_vehiculo, $url)";
 
-   $stmt = OCIParse($conn, $query);
+    $vehiculo= oci_parse($conn, $query);
 
-   OCIBindByName($stmt , ':the_blob',$lob, -1, OCI_B_BLOB);
+    $resul= oci_execute($vehiculo);
 
-   OCIExecute($stmt, OCI_DEFAULT);
-   if($lob->savefile($lob_upload))
-   {
-       OCICommit($conn);
-       $res = array('status' => true, 'message' => 'Registro completo');
-   }
-   else{
-       $res = array('status' => false, 'message' => 'Credenciales Invalidas');
-   }
-   OCIFreeStatement($stmt);
-   OCILogoff($conn);
-   echo json_encode($res);
+    if($resul){
+        $res = array('status' => true, 'message' => 'Registro completo');
+    }else{
+        $res = array('status' => false, 'message' => 'Credenciales Invalidas');
+    }
+    oci_close($conn);
+    echo json_encode($res);
+
 }else{
-   $res = array('status' => false, 'message' => 'Connection error');
-   echo json_encode($res);
+    $res = array('status' => false, 'message' => 'Connection error');
+    echo json_encode($res);
 }
 ?>
