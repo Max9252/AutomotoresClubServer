@@ -17,13 +17,14 @@ if($conn){
     $id_usuario=$params[7];
     $aseguradora=$params[8];
     $color_vehiculo=$params[9];
+    $url=$params[10];
     //Estado como activo por defecto
     $estado=0; 
 
     //echo array($placa,$fecha_vigencia,$tipo_vehiculo,$linea,$barrio,$convenio,$modelo,$id_usuario,$aseguradora,$color_vehiculo);
 
     //Query de insercion de registro
-    $query="INSERT INTO AC_VEHICULO(ID, PLACA, VIGENCIA_SOAT, TIPO_VEHICULO, LINEA, BARRIO, CONVENIO, MODELO, ESTADO, ID_USUARIO, ASEGURADORA, COLOR_VEHICULO) VALUES (VEHICULO_ID.NEXTVAL, '$placa', to_date('$fecha_vigencia','YYYY-MM-DD'), $tipo_vehiculo, $linea, $barrio, $convenio, $modelo, $estado, $id_usuario, $aseguradora, $color_vehiculo)";
+    $query="INSERT INTO AC_VEHICULO(ID, PLACA, VIGENCIA_SOAT, TIPO_VEHICULO, LINEA, BARRIO, CONVENIO, MODELO, ESTADO, ID_USUARIO, ASEGURADORA, COLOR_VEHICULO, URL) VALUES (VEHICULO_ID.NEXTVAL, '$placa', to_date('$fecha_vigencia','YYYY-MM-DD'), $tipo_vehiculo, $linea, $barrio, $convenio, $modelo, $estado, $id_usuario, $aseguradora, $color_vehiculo, $url)";
 
     $vehiculo= oci_parse($conn, $query);
 
