@@ -18,7 +18,7 @@ if($conn){
     if ($row['PLACA']==$placa ){
     $disponible = 1;
     }
-    $datos = array('status' => $disponible);
+    $datos = array('status' => $disponible, 'data'=>$placa);
     echo json_encode($datos);
 }
 else{

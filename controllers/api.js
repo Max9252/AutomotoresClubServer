@@ -52,7 +52,7 @@ exports.deletePhoto = function(req,res){
 }
 
 exports.getDatosAutomotor = function(req,res) {
-  var phpScriptPath = "php/getVehiculo.php";
+  var phpScriptPath = "php/getPerfilVehiculo.php";
   var argsString = '"'+req.params.id_automotor+'"';
   runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
       if(err){
@@ -110,7 +110,7 @@ exports.validatePlaca = function(req,res) {
           res.json({success:false,reason:err});
       } else if(phpResponse){
           var phpResp = JSON.parse(phpResponse);
-          res.json({success:true,status:phpResp.status});
+          res.json({success:true,status:phpResp.status, data:phpResp.data});
       }
   });
 }
