@@ -36,6 +36,8 @@ if($conn){
         $res = array('status' => false, 'message' => 'Update failed');
     }
 
+    echo json_encode($res);
+
 
 }
 else{
