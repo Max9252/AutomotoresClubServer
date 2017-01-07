@@ -6,35 +6,37 @@ include(
 );
 if($conn){
 
-    $contrasena= "hola";
-    $id= 1;
+    $params = explode(",",$argv[1]);
+    $id=$params[0];
+    $contrasena= $params[1];
 
     //Query de insercion de registro
-    $query="UPDATE AC_USUARIO_VEHICULO SET CONTRASENA='${contrasena}' WHERE ID='${id}'";
+    $cambioPass="UPDATE AC_USUARIO_VEHICULO SET CONTRASENA='${contrasena}' WHERE ID='${id}'";
 
-    $resultado= @oci_parse($conn, $query);
+    $resultado= oci_parse($conn, $cambioPass);
 
     oci_execute($resultado);
 
     if($resultado){
-        $query2 = "SELECT CONTRASENA FROM AC_USUARIO_ADMINISTRADOR WHERE ID='${id}'";
 
-        $contrasena= oci_parse($conn, $query2);
+        $passNueva = "SELECT CONTRASENA FROM AC_USUARIO_VEHICULO WHERE ID='${id}'";
 
-        $resul2= @oci_execute($contrasena);
+        $pass= oci_parse($conn, $passNueva);
 
-        $aux= oci_fetch_array($contrasena, OCI_ASSOC);
+        $resul= @oci_execute($pass);
+
+        $aux= oci_fetch_array($pass, OCI_ASSOC);
 
         if ($aux['CONTRASENA'] === $contrasena) {    
             $res = array('status' => true, 'message' => 'Update complete');
         }else{
-            $res = array('status' => false, 'message' => 'Update failed');
+            $res = array('status' => false, 'message' => 'Update failed3');
         }
 
     }else{
-        $res = array('status' => false, 'message' => 'Update failed');
+        $res = array('status' => false, 'message' => 'Update failed2');
     }
-
+    echo json_encode($res);
 
 }
 else{
