@@ -54,6 +54,8 @@ exports.deletePhoto = function(req,res){
 exports.updatePassword = function(req,res) {
     var phpScriptPath = "php/updatePass.php";
     var argsString = '"'+req.body.password+','+req.body.user_id+'"';
+    console.log(req.body.password);
+    console.log(req.body.user_id);
     runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
         if(err){
             res.json({success:false,reason:err});
