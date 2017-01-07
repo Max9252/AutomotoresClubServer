@@ -10,7 +10,7 @@ if($conn){
     $idEstablecimiento=$params[0]; 
 
     //Query de insercion de registro
-    $query="SELECT A.NOMBRE_COMERCIAL, A.TELEFONO_FIJO, A.DIRECCION, A.DESCRIPCION, B.NOMBRE AS CIUDAD FROM AC_ESTABLECIMIENTO_COMERCIO A, AC_P_CIUDAD B WHERE  A.CIUDAD = B.CODIGO AND A.ID=$idEstablecimiento";
+    $query="SELECT A.NOMBRE_COMERCIAL, A.TELEFONO_FIJO, A.DIRECCION, A.DESCRIPCION, A.URL_IMAGEN, B.NOMBRE AS CIUDAD FROM AC_ESTABLECIMIENTO_COMERCIO A, AC_P_CIUDAD B WHERE  A.CIUDAD = B.CODIGO AND A.ID=$idEstablecimiento";
 
     $resultado= oci_parse($conn, $query);
     oci_execute($resultado);
