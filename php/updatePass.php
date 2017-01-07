@@ -7,8 +7,13 @@ include(
 if($conn){
 
     $params = explode(",",$argv[1]);
+<<<<<<< HEAD
     $id=$params[0];
     $contrasena= $params[1];
+=======
+    $contrasena=$params[0];
+    $id= $params[1];
+>>>>>>> 49e4d768f6e3847b801df3bf7e1d6cea829deae2
 
     //Query de insercion de registro
     $cambioPass="UPDATE AC_USUARIO_VEHICULO SET CONTRASENA='${contrasena}' WHERE ID='${id}'";
@@ -36,7 +41,13 @@ if($conn){
     }else{
         $res = array('status' => false, 'message' => 'Update failed2');
     }
+<<<<<<< HEAD
     echo json_encode($res);
+=======
+
+    echo json_encode($res);
+
+>>>>>>> 49e4d768f6e3847b801df3bf7e1d6cea829deae2
 
 }
 else{
