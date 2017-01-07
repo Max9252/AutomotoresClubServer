@@ -51,6 +51,23 @@ exports.deletePhoto = function(req,res){
   });
 }
 
+exports.updatePassword = function(req,res) {
+    var phpScriptPath = "php/updatePass.php";
+    var argsString = '"'+req.body.password+','+req.body.user_id+'"';
+    runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
+        if(err){
+            res.json({success:false,reason:err});
+        } else if(phpResponse){
+            var phpResp = JSON.parse(phpResponse);
+            if(phpResp.status){
+                res.json({success:true, message:phpResp.message});
+            }else{
+                res.json({success:false, message:phpResp.message});
+            }
+        }
+    });
+}
+
 exports.getDatosAutomotor = function(req,res) {
   var phpScriptPath = "php/getPerfilVehiculo.php";
   var argsString = '"'+req.params.id_automotor+'"';

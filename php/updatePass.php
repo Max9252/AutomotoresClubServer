@@ -6,8 +6,9 @@ include(
 );
 if($conn){
 
-    $contrasena= "hola";
-    $id= 1;
+    $params = explode(",",$argv[1]);
+    $contrasena=$params[0];
+    $id= $params[1];
 
     //Query de insercion de registro
     $query="UPDATE AC_USUARIO_VEHICULO SET CONTRASENA='${contrasena}' WHERE ID='${id}'";

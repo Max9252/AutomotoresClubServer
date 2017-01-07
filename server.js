@@ -68,6 +68,8 @@ app.post('/updateColor', cors(), upload.array(), api.updateColor);
 
 app.post('/updateLocation', cors(), upload.array(), api.updateLocation);
 
+app.post('/updatePassword', cors(), upload.array(), api.updatePassword);
+
 app.listen(puerto, function () {
   console.log("Servidor corriendo por el puerto " + puerto);
 });
