@@ -52,6 +52,8 @@ app.get('/getBarrio/:ciudad', api.getBarrio);
 
 app.get('/getComuna/:barrio', api.getComuna);
 
+app.post('/updateImageAutomotor', api.updatePhotoAutomotor);
+
 app.post('/login',cors(),upload.array(), api.login);
 
 app.post('/reg',cors(),upload.array(), api.reg);

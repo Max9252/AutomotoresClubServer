@@ -34,6 +34,23 @@ exports.uploadPhoto = function(req,res){
       });
 }
 
+exports.updatePhotoAutomotor = function (req,res) {
+    var phpScriptPath = "php/updateImagenVehiculo.php";
+    var argsString = '"'+req.body.id+','+req.body.url+'"';
+    runner.exec("php " + phpScriptPath + " " + argsString, function(err, phpResponse, stderr) {
+        if(err){
+            res.json({success:false,reason:err});
+        } else if(phpResponse){
+            var phpResp = JSON.parse(phpResponse);
+            if(phpResp.status){
+                res.json({success:true, message:phpResp.message});
+            }else{
+                res.json({success:false, message:phpResp.message});
+            }
+        }
+    });
+}
+
 exports.deletePhoto = function(req,res){
   var params = {
     Bucket: myBucket,
