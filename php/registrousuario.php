@@ -11,6 +11,7 @@
         $params = explode(",",$argv[1]);
         $correo= $params[0];
         $contrasena= $params[1];
+        $url="assets/icon/userAvatar.png";
 
         $emailVerificationArray = "SELECT * FROM AC_USUARIO_VEHICULO WHERE CORREO='$correo'";
 
@@ -23,7 +24,7 @@
         if($row){
             $res = array('status' => false, 'message' => 'Email already exist');
         }else{
-            $arrayDatosUsuario="INSERT INTO AC_USUARIO_VEHICULO (Id, Correo, Contrasena, Estado) 
+            $arrayDatosUsuario="INSERT INTO AC_USUARIO_VEHICULO (Id, Correo, Contrasena, Estado, AVATAR) 
             VALUES (USUVEHICULO_ID.NEXTVAL, '$correo', '$contrasena', 0)";
 
             $ingresoDatosUsuario= oci_parse($conn, $arrayDatosUsuario);
