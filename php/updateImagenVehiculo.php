@@ -6,7 +6,6 @@ include(
 );
 if($conn){
 
-
     $params = explode(",",$argv[1]);
 
     $id=$params[0];

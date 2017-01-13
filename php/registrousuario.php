@@ -25,7 +25,7 @@
             $res = array('status' => false, 'message' => 'Email already exist');
         }else{
             $arrayDatosUsuario="INSERT INTO AC_USUARIO_VEHICULO (Id, Correo, Contrasena, Estado, AVATAR) 
-            VALUES (USUVEHICULO_ID.NEXTVAL, '$correo', '$contrasena', 0)";
+            VALUES (USUVEHICULO_ID.NEXTVAL, '$correo', '$contrasena', 0, '$url')";
 
             $ingresoDatosUsuario= oci_parse($conn, $arrayDatosUsuario);
 
