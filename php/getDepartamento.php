@@ -7,7 +7,7 @@ include(
 );
 if($conn){
     //Query de insercion de registro
-    $query="SELECT CODIGO, NOMBRE FROM AC_P_DEPARTAMENTO BY NOMBRE ASC";
+    $query="SELECT CODIGO, NOMBRE FROM AC_P_DEPARTAMENTO ORDER BY NOMBRE ASC";
     $resultado= oci_parse($conn, $query);
     oci_execute($resultado);
     $cerrar=oci_close($conn);
