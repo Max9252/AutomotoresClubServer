@@ -7,7 +7,7 @@ include(
 );
 if($conn){
     //Query de insercion de registro
-    $query="SELECT CODIGO, NOMBRE FROM AC_P_DEPARTAMENTO";
+    $query="SELECT CODIGO, NOMBRE FROM AC_P_DEPARTAMENTO BY NOMBRE ASC";
     $resultado= oci_parse($conn, $query);
     oci_execute($resultado);
     $cerrar=oci_close($conn);
@@ -15,7 +15,8 @@ if($conn){
     {
         $rows[] = $row;
     }
+    
     $datos = array('status' => true, 'datos' => $rows);
-    echo json_encode($datos);
+    echo json_encode(utf8_encode($rows));
 }
 ?>

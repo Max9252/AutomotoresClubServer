@@ -12,7 +12,8 @@ if($conn){
     $url= $params[1];
     
     //Query de insercion de registro
-    $cambioPass="UPDATE AC_VEHICULO SET URL_IMAGEN='${url}' WHERE ID = $id";
+    $cambioPass="UPDATE AC_VEHICULO SET URL_IMAGEN='${url}' WHERE ID = $id";}
+echo $cambioPass;
 
     $resultado= oci_parse($conn, $cambioPass);
 
@@ -23,7 +24,7 @@ if($conn){
         $res = array('status' => true, 'message' => 'Update complete');
 
     }else{
-        $res = array('status' => false, 'message' => 'Update failed2');
+        $res = array('status' => false, 'message' => 'Update failed');
     }
 
     echo json_encode($res);

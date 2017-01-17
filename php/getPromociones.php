@@ -9,7 +9,6 @@ if($conn){
     $params = explode(",",$argv[1]);
     $claseVehiculo=$params[0];
     $tipoServicio=$params[1];
-
     switch($claseVehiculo){
         case 1:
             $mercadoObjetivo = 1;
