@@ -13,10 +13,10 @@ if($conn){
     $cerrar=oci_close($conn);
     while($row = oci_fetch_assoc($resultado))
     {
-        $rows[] = $row;
+        $rows[] = utf8_enconde($row);
     }
     
     $datos = array('status' => true, 'datos' => $rows);
-    echo json_encode(utf8_encode($rows));
+    echo json_encode($datos);
 }
 ?>
