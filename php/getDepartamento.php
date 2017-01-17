@@ -13,7 +13,7 @@ if($conn){
     $cerrar=oci_close($conn);
     while($row = oci_fetch_assoc($resultado))
     {
-        $rows[] = utf8_encode($row);
+        $rows[] = $row;
     }
     
     $datos = array('status' => true, 'datos' => $rows);
