@@ -53,7 +53,7 @@ if($conn){
 
     //Query de insercion de registro
     $query="SELECT A.NOMBRE, A.DESCRIPCION, A.URL_IMAGEN, B.NOMBRE AS CIUDAD FROM AC_OFERTAS A, AC_P_CIUDAD B, AC_ESTABLECIMIENTO_COMERCIO C WHERE A.ID_ESTABLECIMIENTO=C.ID AND C.CIUDAD=B.CODIGO AND A.MERCADO_OBJETIV=$mercadoObjetivo AND A.SERVICIO=$tipoServicio";
-
+//pruebas
     $resultado= oci_parse($conn, $query);
     oci_execute($resultado);
     $cerrar=oci_close($conn);
