@@ -24,8 +24,8 @@
         if($row){
             $res = array('status' => false, 'message' => 'Email already exist');
         }else{
-            $arrayDatosUsuario="INSERT INTO AC_USUARIO_VEHICULO (Id, Correo, Contrasena, Estado, AVATAR) 
-            VALUES (USUVEHICULO_ID.NEXTVAL, '$correo', '$contrasena', 0, '$url')";
+            $arrayDatosUsuario="INSERT INTO AC_USUARIO_VEHICULO (Id, Correo, Contrasena, Estado)
+            VALUES (USUVEHICULO_ID.NEXTVAL, '$correo', '$contrasena', 0)";
 
             $ingresoDatosUsuario= oci_parse($conn, $arrayDatosUsuario);
 
@@ -38,7 +38,7 @@
                 $res = array('status' => false, 'message' => 'Error on signUp');
             }
         }
-        
+
         oci_close($conn);
         echo json_encode($res);
 
